@@ -1,0 +1,38 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: test-cluster 
+  region: us-east-1
+  version: "1.18" 
+  tags:
+    eksctl: "0.30.0"
+vpc:
+  id: "<VPC-ID>"
+  cidr: "<CIDR-RANGE>" # ex: 10.6.0.0/16
+  subnets:
+    private:
+      eu-west-1a: { id: <SUBNET-ID-1> }
+      eu-west-1b: { id: <SUBNET-ID-2> }
+      eu-west-1c: { id: <SUBNET-ID-3> }
+cloudWatch:
+  clusterLogging:
+    enableTypes: ["*"]
+nodeGroups:
+  - name: "test-nodegorup"
+    availabilityZones: ["eu-west-1c", "eu-west-1a","eu-west-1b"]
+    labels: { env: test }
+    tags: { eksctl: "0.30.0" }
+    instanceType: t3.large
+    taints:
+      data: "true:NoSchedule"
+    desiredCapacity: 1
+    minSize: 1
+    maxSize: 1
+    privateNetworking: true
+    volumeSize: 20
+    volumeType: gp2
+    ssh:
+      publicKeyPath: ~/.ssh/test.pub
+    iam:
+      instanceProfileARN: "arn:aws:iam::<ACCOUNT_ID>:instance-profile/eks-worker-node-test"
+      instanceRoleARN: "arn:aws:iam::<ACCOUNT-ID>:role/eks-worker-node-test"
