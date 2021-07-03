@@ -2,7 +2,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
   name: test-cluster 
-  region: us-east-1
+  region: <aws-region>
   version: "1.18" 
   tags:
     eksctl: "0.30.0"
@@ -19,7 +19,7 @@ cloudWatch:
     enableTypes: ["*"]
 nodeGroups:
   - name: "test-nodegorup"
-    availabilityZones: ["eu-west-1c", "eu-west-1a","eu-west-1b"]
+    availabilityZones: ["<az-1>","<az-2>","<az-3>"]
     labels: { env: test }
     tags: { eksctl: "0.30.0" }
     instanceType: t3.large
